@@ -1,10 +1,22 @@
 import streamlit as st
 
-# --- CONFIG ---
-st.set_page_config(page_title="一起复习第十五课（一）", page_icon="📝")
+# --- 1. GIẤU NÚT GITHUB VÀ THANH HEADER (PHẢI ĐỂ Ở ĐẦU) ---
+st.set_page_config(
+    page_title="一起复习第十五课（一）", 
+    page_icon="📝",
+    initial_sidebar_state="collapsed"
+)
 
-# --- DATA ---
-# Đã lọc sạch: 左右, 鼓掌, 骄傲, 承担
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            header {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
+# --- 2. DỮ LIỆU CÂU HỎI ---
 questions = [
     {"q": "爸爸的爸爸叫爷爷，那爷爷管我叫什么？", "options": ["A. 孙子", "B. 儿子", "C. 叔叔", "D. 老师"], "a": "A"},
     {"q": "表扬孩子的时候，____不要太多，否则会给孩子带来压力。", "options": ["A. 一定", "B. 千万", "C. 甚至", "D. 起来"], "a": "B"},
@@ -13,7 +25,7 @@ questions = [
     {"q": "我不小心把刚才准备好的新闻材料____乱了。", "options": ["A. 弄", "B. 做", "C. 办", "D. 写"], "a": "A"},
     {"q": "哪怕是再小的一件事，只要坚持做，也能____好习惯。", "options": ["A. 养成", "B. 放弃", "C. 解决", "D. 弄坏"], "a": "A"},
     {"q": "听到那个笑话，大家都忍不住大笑____了。\n\n*(忍不住 rěn bú zhù: không nhịn được)*", "options": ["A. 起来", "B. 出来", "C. 过去", "D. 下来"], "a": "A"},
-    {"q": "明天有很重要的考试，你____别迟到了。", "options": ["A. 一定", "B. 弄", "C. 起来", "D. 千万"], "a": "D"},
+    {"q": "明天 có 很重要的考试，你____别迟到了。", "options": ["A. 一定", "B. 弄", "C. 起来", "D. 千万"], "a": "D"},
     {"q": "每个人在成长的____中，都会遇到很多困难。", "options": ["A. 过程", "B. 结果", "C. 效果", "D. 责任"], "a": "A"},
     {"q": "看到这张老照片，我突然____了他是谁。", "options": ["A. 想起来", "B. 想出来", "C. 弄出来", "D. 看起来"], "a": "A"},
     {"q": "这种学习方法对提高汉语水平有明显的____。", "options": ["A. 习惯", "B. 勇气", "C. 效果", "D. 孙子"], "a": "C"},
@@ -38,22 +50,21 @@ questions = [
     {"q": "教育孩子不仅需要爱心，更需要帮他们____良好的习惯。", "options": ["A. 养成", "B. 放弃", "C. 甚至", "D. 弄"], "a": "A"}
 ]
 
-# --- SESSION STATE ---
+# --- 3. SESSION STATE ---
 if 'idx' not in st.session_state:
     st.session_state.idx = 0
     st.session_state.answers = [None] * len(questions)
     st.session_state.done = False
 
-# --- UI ---
+# --- 4. UI ---
 st.title("一起复习第十五课（一）")
-st.write("Ôn tập từ vựng (3 bài khóa đầu) & Ngữ pháp (起来、弄、千万)")
+st.write("Ôn tập từ vựng & Ngữ pháp Bài 15 (1-3)")
 
 if not st.session_state.done:
     q = questions[st.session_state.idx]
     st.subheader(f"Câu {st.session_state.idx + 1}/{len(questions)}")
     st.info(q['q'])
     
-    # User choice
     choice = st.radio("Chọn đáp án:", q['options'], key=f"radio_{st.session_state.idx}")
     
     col1, col2 = st.columns(2)
@@ -73,7 +84,6 @@ if not st.session_state.done:
                 st.session_state.done = True
                 st.rerun()
 else:
-    # --- RESULT ---
     st.balloons()
     score = sum(1 for i, q in enumerate(questions) if st.session_state.answers[i] == q['a'])
     st.header(f"FINISHED! 🏆 Score: {score}/{len(questions)}")

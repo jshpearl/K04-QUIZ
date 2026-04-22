@@ -1,59 +1,47 @@
 import streamlit as st
 
-st.set_page_config(page_title="HSK4 - Bài 18 Quiz", layout="centered")
+st.set_page_config(page_title="K04 Ôn tập Bài 18", layout="centered")
 
-# --- DANH SÁCH 30 CÂU HỎI ---
+# --- DANH SÁCH 20 CÂU HỎI ---
 if 'questions' not in st.session_state:
     st.session_state.questions = [
-        # --- MÔI TRƯỜNG (ENVIRONMENT) ---
-        {"q": "现在的环境污染问题越来越严重，人类已经_______大自然了。", "options": ["离得开", "离不开", "受不了", "接着"], "a": "离不开", "type": "fill"},
-        {"q": "保护地球_______每个人的责任，这还需要讨论吗？", "options": ["是否", "是不是", "受不了", "接着"], "a": "是否", "type": "fill"},
-        {"q": "夏天的气温一年比一年高，真是让人_______。", "options": ["受得住", "受不了", "离不开", "接着"], "a": "受不了", "type": "fill"},
-        {"q": "我们应该先垃圾分类，_______把可回收物送到工厂。", "options": ["然后", "接着", "是否", "既然"], "a": "接着", "type": "fill"},
-        {"q": "Dịch: Liệu phương pháp bảo vệ môi trường này có hiệu quả không?", "options": ["这个保护环境方法是否有效？", "是否这个保护环境方法有效？", "这个保护环境方法是不是否有效？", "这个保护环境方法有效是否？"], "a": "这个保护环境方法是否有效？", "type": "trans"},
+        # --- MÔI TRƯỜNG & CON NGƯỜI ---
+        {"q": "鱼儿_______水，就像人离不开空气一样。", "options": ["离得开", "离不开", "受不了", "接着"], "a": "离不开"},
+        {"q": "每个人都应该关心环境保护，这_______我们生活的环境。", "options": ["关系到", "受不了", "接着", "离得开"], "a": "关系到"},
+        {"q": "这种保护环境的方法_______有效，我们还需要再试试。", "options": ["是否", "离得开", "受不了", "接着"], "a": "是否"},
+        {"q": "夏天的天气太热了，我真的_______。", "options": ["受得了", "受不了", "离得开", "接着"], "a": "受不了"},
+        {"q": "Dịch: Con người không thể rời xa tự nhiên.", "options": ["人类离不开自然。", "人类离得开自然。", "自然离不开人类。", "人类自然离不开。"], "a": "人类离不开自然。"},
         
-        # --- KHOA HỌC CÔNG NGHỆ (TECH) ---
-        {"q": "如果没有互联网，现代人的生活还能_______吗？", "options": ["离得开", "离不开", "是否", "仍然"], "a": "离得开", "type": "fill"},
-        {"q": "科技的发展_______能给人类带来真正的幸福，是一个值得思考的问题。", "options": ["是否", "离不开", "受不了", "接着"], "a": "是否", "type": "fill"},
-        {"q": "这个手机软件总是在关键时刻卡住，我真是_______！", "options": ["受不了", "受得了", "离不开", "接着"], "a": "受不了", "type": "fill"},
-        {"q": "请先打开电脑，_______输入密码登录系统。", "options": ["接着", "然后", "是否", "依然"], "a": "接着", "type": "fill"},
-        {"q": "Dịch: Con người không thể rời xa các thiết bị công nghệ.", "options": ["人类离不开科技设备。", "人类离得开科技设备。", "科技设备离不开人类。", "科技设备人类离得开。"], "a": "人类离不开科技设备。", "type": "trans"},
+        # --- KHOA HỌC CÔNG NGHỆ ---
+        {"q": "如果没有手机，你_______这样的生活吗？", "options": ["离得开", "离不开", "受不了", "是否"], "a": "离得开"},
+        {"q": "先下载这个软件，_______再输入你的名字。", "options": ["接着", "然后", "是否", "既然"], "a": "接着"},
+        {"q": "现在的技术非常发达，手机的联系_______有很多种。", "options": ["方式", "方法", "方向", "方案"], "a": "方式"},
+        {"q": "电脑又坏了，我真的_______这台旧电脑了。", "options": ["受得了", "受不了", "离得开", "接着"], "a": "受不了"},
+        {"q": "Dịch: Tôi muốn biết liệu anh ấy có nhận được tin nhắn không.", "options": ["我想知道他是否收到了短信。", "我想知道他是不是否收到了短信。", "是否我想知道他收到了短信。", "我想知道收到短信是否他。"], "a": "我想知道他是否收到了短信。"},
 
-        # --- NUÔI DẠY CON CÁI (PARENTING) ---
-        {"q": "无论工作多忙，父母都_______孩子的陪伴。", "options": ["离得开", "离不开", "是否", "受不了"], "a": "离不开", "type": "fill"},
-        {"q": "教育孩子时，最重要的看你_______愿意耐心地倾听。", "options": ["是否", "受不了", "接着", "离得开"], "a": "是否", "type": "fill"},
-        {"q": "现在的孩子压力太大，有时候连周末都要补习，真让人_______。", "options": ["受不了", "受得了", "接着", "离不开"], "a": "受不了", "type": "fill"},
-        {"q": "妈妈先批评了孩子，_______又耐心地讲了道理。", "options": ["接着", "然后", "是否", "由于"], "a": "接着", "type": "fill"},
-        {"q": "Dịch: Cách giáo dục này được gọi là 'giáo dục gia đình'.", "options": ["这种教育方式把叫作“家庭教育”。", "人们把这种教育方式叫作“家庭教育”。", "这种教育方式叫作把“家庭教育”。", "把这种教育方式人们叫作“家庭教育”。"], "a": "人们把这种教育方式叫作“家庭教育”。", "type": "trans"},
+        # --- NUÔI DẠY CON CÁI ---
+        {"q": "父母的爱是孩子成长中_______的。", "options": ["离得开", "离不开", "受不了", "接着"], "a": "离不开"},
+        {"q": "教育孩子时，你应该先听听他们的想法，_______再告诉他们对不对。", "options": ["接着", "然后", "是否", "仍然"], "a": "接着"},
+        {"q": "孩子每天都哭，邻居们都快_______了。", "options": ["受不了", "受得了", "离不开", "是否"], "a": "受不了"},
+        {"q": "现在的父母都很关心孩子_______能养成良好的习惯。", "options": ["是否", "离得开", "受不了", "接着"], "a": "是否"},
+        {"q": "Dịch: Mọi người gọi thói quen này là 'Nuanfang'.", "options": ["人们把这个习惯叫作“暖房”。", "这个习惯叫作把“暖房”人们。", "人们把这个习惯叫作了“暖房”。", "把人们这个习惯叫作“暖房”。"], "a": "人们把 questo 习惯叫作“暖房”。"},
 
-        # --- CON NGƯỜI & ĐỜI SỐNG (HUMANS) ---
-        {"q": "一个人_______能获得成功，主要看他是否努力。", "options": ["是否", "离不开", "接着", "仍然"], "a": "是否", "type": "fill"},
-        {"q": "他刚喝完药，_______又躺下休息了。", "options": ["接着", "然后", "是否", "既然"], "a": "接着", "type": "fill"},
-        {"q": "这种奇特的风俗_______还存在，我不太确定。", "options": ["是否", "受不了", "离不开", "接着"], "a": "是否", "type": "fill"},
-        {"q": "现代社会，工作和生活是_______的。", "options": ["离得开", "离不开", "受不了", "接着"], "a": "离不开", "type": "fill"},
-        {"q": "Dịch: Tôi thực sự không chịu nổi tiếng ồn của hàng xóm.", "options": ["我真的受不了邻居的噪音了。", "邻居的噪音真的受不了我了。", "我受得住邻居真的噪音了。", "真的我邻居受不了噪音了。"], "a": "我真的受不了邻居的噪音了。", "type": "trans"},
-        
-        {"q": "这种联系_______在现代社会非常普及。", "options": ["方法", "方式", "方向", "方案"], "a": "方式", "type": "fill"},
-        {"q": "那个人的脾气太怪了，大家都对他_______。", "options": ["受不了", "受得了", "离不开", "是否"], "a": "受不了", "type": "fill"},
-        {"q": "科学研究_______严谨的态度。", "options": ["离得开", "离不开", "受不了", "接着"], "a": "离不开", "type": "fill"},
-        {"q": "他在黑板上写了一个字，_______又画了一个圆。", "options": ["接着", "然后", "是否", "甚至"], "a": "接着", "type": "fill"},
-        {"q": "Dịch: Bạn có thể sống thiếu (rời xa) máy tính một ngày không?", "options": ["你一天离不开电脑吗？", "你一天离得开电脑吗？", "电脑一天离得开你吗？", "你离得开电脑一天吗？"], "a": "你离得开电脑吗？", "type": "trans"},
-        
-        {"q": "婚姻_______幸福，不在于有没有“夫妻相”。", "options": ["是否", "受不了", "接着", "离得开"], "a": "是否", "type": "fill"},
-        {"q": "每天都要在公车上挤一个小时，我实在_______。", "options": ["受不了", "离不开", "接着", "是否"], "a": "受不了", "type": "fill"},
-        {"q": "他先看了看地图，_______指向了前方。", "options": ["接着", "然后", "是否", "仍然"], "a": "接着", "type": "fill"},
-        {"q": "鱼儿_______水，就像人类离不开空气。", "options": ["离不开", "离得开", "受不了", "是否"], "a": "离不开", "type": "fill"},
-        {"q": "Dịch: Theo tin tức mới nhất, thời tiết tuần sau sẽ rất đẹp.", "options": ["据最新消息，下周天气会很好。", "根据最新消息，下周天气会很好。", "据最新消息，下周天气会很好。（A&B đều đúng）", "据/根据都没有这个说法。"], "a": "据最新消息，下周天气会很好。（A&B đều đúng）", "type": "trans"}
+        # --- TỔNG HỢP ---
+        {"q": "除了这些优点，你_______发现他有别的缺点吗？", "options": ["是否", "受不了", "离不开", "接着"], "a": "是否"},
+        {"q": "他刚写完作业，_______又开始预习明天的课。", "options": ["接着", "然后", "是否", "居然"], "a": "接着"},
+        {"q": "这种生活_______虽然辛苦，但是很有趣。", "options": ["方法", "方式", "方案", "方便"], "a": "方式"},
+        {"q": "这里的噪音太大了，我一分钟也_______。", "options": ["受不了", "受得了", "离不开", "接着"], "a": "受不了"},
+        {"q": "Dịch: Liệu kế hoạch này có khả thi không?", "options": ["这个计划是否可行？", "这个计划是不是否可行？", "是否这个计划可行？", "这个计划可行是否？"], "a": "这个计划是否可行？"}
     ]
 
 # --- LOGIC APP ---
 if 'user_answers' not in st.session_state:
-    st.session_state.user_answers = [None] * 30
+    st.session_state.user_answers = [None] * 20
 if 'submitted' not in st.session_state:
     st.session_state.submitted = False
 
-st.title("🎓 Luyện tập Tiếng Trung Bài 18 - HSK 4")
-st.write("Chủ đề: Môi trường, Công nghệ, Con người & Nuôi dạy con cái.")
+st.title("🎯 K04 Ôn tập Bài 18")
+st.write("Hãy hoàn thành các câu hỏi trắc nghiệm dưới đây để ôn tập các điểm ngữ pháp quan trọng nhé!")
 st.divider()
 
 # Hiển thị câu hỏi
@@ -73,7 +61,7 @@ st.divider()
 # Nút nộp bài
 if st.button("Nộp bài / 提交回答", use_container_width=True):
     if None in st.session_state.user_answers:
-        st.warning("Ông ơi, học sinh còn mấy câu chưa làm kìa! Làm hết mới nộp được nha.")
+        st.warning("Học sinh ơi, còn câu chưa làm kìa! Làm hết mới nộp được nha.")
     else:
         st.session_state.submitted = True
 
@@ -81,28 +69,28 @@ if st.button("Nộp bài / 提交回答", use_container_width=True):
 if st.session_state.submitted:
     score = sum(1 for i, q in enumerate(st.session_state.questions) if st.session_state.user_answers[i] == q['a'])
     
-    st.header(f"📊 Kết quả: {score}/30")
+    st.header(f"📊 Kết quả bài làm: {score}/20")
     
-    if score >= 25:
+    if score >= 16:
         st.balloons()
-        st.success("Quá đỉnh! PhD có khác, dạy học sinh thế này thì ai cũng giỏi! 🌟")
-    elif score >= 15:
-        st.info("Cũng ổn đấy, nhưng nhắc học sinh xem lại mấy chỗ '接着' với '然后' nha.")
+        st.success("Tuyệt vời! Bạn đã nắm vững kiến thức Bài 18! 🌟")
+    elif score >= 10:
+        st.info("Kết quả khá tốt, nhưng bạn nên xem lại một vài câu sai nhé.")
     else:
-        st.error("Học sinh cần cố gắng nhiều rồi. Ông cho tụi nó làm lại đi!")
+        st.error("Bạn cần ôn tập kỹ hơn về cách dùng 是否 và 接着 rồi.")
 
-    st.subheader("📝 Chi tiết bài làm:")
+    st.subheader("🔍 Xem lại chi tiết:")
     for i, q in enumerate(st.session_state.questions):
         user_ans = st.session_state.user_answers[i]
         if user_ans == q['a']:
-            st.write(f"✅ Câu {i+1}: Đúng! (Đáp án: {q['a']})")
+            st.write(f"✅ **Câu {i+1}**: Đúng! (Đáp án: {q['a']})")
         else:
-            st.write(f"❌ Câu {i+1}: Sai. (Bạn chọn: {user_ans} | Đáp án đúng: {q['a']})")
+            st.write(f"❌ **Câu {i+1}**: Sai. (Bạn chọn: {user_ans} | Đáp án đúng: {q['a']})")
 
     st.markdown("---")
-    st.markdown("### ❤️ Cảm ơn bạn đã hoàn thành bài tập này! Chúc bạn tiến bộ mỗi ngày!")
+    st.markdown("### ❤️ Cảm ơn bạn đã hoàn thành bài tập này! Chúc bạn học tốt!")
     
     if st.button("Làm lại bài / 重新开始"):
         st.session_state.submitted = False
-        st.session_state.user_answers = [None] * 30
+        st.session_state.user_answers = [None] * 20
         st.rerun()
